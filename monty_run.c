@@ -110,11 +110,13 @@ int run_monty(FILE *script_fd)
 	size_t len = 0, exit_status = EXIT_SUCCESS;
 	unsigned int line_number = 0, prev_tok_len = 0;
 	void (*op_func)(stack_t**, unsigned int);
+	size_t getline(char **lineptr, size_t *n, FILE *stream);
+	ssize_t read;
 
 	if (init_stack(&stack) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 
-	while (getline(&line, &len, script_fd) != -1)
+	while ((read = getline(&line, &len, script_fd)) != -1)
 	{
 		line_number++;
 		op_toks = strtow(line, DELIMS);
